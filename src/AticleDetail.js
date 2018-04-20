@@ -17,7 +17,7 @@ import {
   Icon,
 } from 'native-base';
 
-//import Tts from 'react-native-tts';
+import Tts from 'react-native-tts';
 
 const baseUrl = 'http://ho1messi.in.8866.org:8629/';
 
@@ -48,6 +48,14 @@ export default class AticleDetail extends Component {
       });
   }
 
+  speak() {
+    Tts.getInitStatus()
+      .then(() => {
+        alert('speak');
+        Tts.speak('Hello, world!')
+      });
+  }
+
   favor() {
     let article = this.state.article;
     article.favored = !article.favored;
@@ -74,6 +82,9 @@ export default class AticleDetail extends Component {
               {article.title}
               </Text>
           </View>
+          <Button transparent style={styles.headerButton} onPress={this.speak}>
+            <Icon name={'md-headset'} style={styles.headerIcon}/>
+          </Button>
         </Header>
 
         <ScrollView>
