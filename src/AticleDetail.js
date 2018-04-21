@@ -19,12 +19,18 @@ import {
 
 import Tts from 'react-native-tts';
 
+import {
+  Synthesizer,
+  SpeechConstant,
+} from 'react-native-speech-iflytek';
+
 const baseUrl = 'http://ho1messi.in.8866.org:8629/';
 
 export default class AticleDetail extends Component {
   constructor(props) {
     super(props);
 
+    this.speak = this.speak.bind(this);
     this.favor = this.favor.bind(this);
     this.comment = this.comment.bind(this);
 
@@ -38,6 +44,8 @@ export default class AticleDetail extends Component {
     let article = {id: 0, title: '', favor: 0, comment: 0, author: '', favored: false, content: ''};
     this.state = {article: article};
 
+    Synthesizer.init('5adaf59b');
+
     fetch (baseUrl + 'form/detail/article/' + params.id + '/')
       .then((response) => response.json())
       .then((json) => {
@@ -49,11 +57,15 @@ export default class AticleDetail extends Component {
   }
 
   speak() {
+    Synthesizer.start(this.state.article.content);
+
+    /*
     Tts.getInitStatus()
       .then(() => {
         alert('speak');
         Tts.speak('Hello, world!')
       });
+    */
   }
 
   favor() {
@@ -75,7 +87,7 @@ export default class AticleDetail extends Component {
 
         <Header style={styles.header}>
           <Button transparent style={styles.headerButton} onPress={() => this.props.navigation.goBack()}>
-            <Icon name={'ios-arrow-back'} style={styles.headerIcon}/>
+            <Icon name={'ios-arrow-back'} style={styles.headerIconBig}/>
           </Button>
           <View style={styles.headerContent}>
             <Text style={styles.headerText}>
@@ -135,6 +147,9 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   headerIcon: {
+    fontSize: 35,
+  },
+  headerIconBig: {
     fontSize: 40,
   },
   contentAuthor: {

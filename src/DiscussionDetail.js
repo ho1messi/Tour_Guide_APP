@@ -19,7 +19,7 @@ import {
 
 const baseUrl = 'http://ho1messi.in.8866.org:8629/';
 
-export default class CommentDetail extends Component {
+export default class DiscussionDetail extends Component {
   constructor(props) {
     super(props);
 
@@ -36,7 +36,7 @@ export default class CommentDetail extends Component {
     let article = {id: 0, title: '', favor: 0, comment: 0, author: '', favored: false, content: ''};
     this.state = {article: article};
 
-    fetch (baseUrl + 'form/detail/comment/' + params.id + '/')
+    fetch (baseUrl + 'form/detail/discussion/' + params.id + '/')
       .then((response) => response.json())
       .then((json) => {
         this.setState({article: json.obj});

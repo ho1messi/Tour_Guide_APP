@@ -22,7 +22,7 @@ export default class ArticleScene extends BaseComponent {
 
     BackHandler.addEventListener('hardwareBackPress', () => true);
 
-    this.getData(baseUrl + 'form/comment/');
+    this.getData(baseUrl + 'form/discussion_list/');
   }
 
   getData(url) {

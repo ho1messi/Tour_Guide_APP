@@ -32,12 +32,12 @@ import {
 
 import BaseComponent from './src/BaseComponent';
 import ArticleScene from './src/ArticleScene';
-import CommentScene from './src/CommentScene';
+import CommentScene from './src/DiscussionScene';
 import MapScene from './src/MapScene';
 import UserScene from './src/UserScene';
 
 import ArticleDetail from './src/AticleDetail';
-import CommentDetail from './src/CommentDetail';
+import DiscussionDetail from './src/DiscussionDetail';
 import PublicArticle from './src/PublicArticle';
 import ChooseArea from './src/ChooseArea';
 
@@ -303,7 +303,7 @@ const RootStack = StackNavigator({
       screen: ArticleDetail,
     },
     Comment: {
-      screen: CommentDetail,
+      screen: DiscussionDetail,
     },
     PublicArticle: {
       screen: PublicArticle,
