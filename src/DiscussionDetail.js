@@ -23,7 +23,7 @@ export default class DiscussionDetail extends Component {
   constructor(props) {
     super(props);
 
-    this.favor = this.favor.bind(this);
+    this.vote = this.vote.bind(this);
     this.comment = this.comment.bind(this);
 
     BackHandler.addEventListener('hardwareBackPress', () => {
@@ -33,7 +33,7 @@ export default class DiscussionDetail extends Component {
 
     const {params} = this.props.navigation.state;
     //params = {id: 10}
-    let article = {id: 0, title: '', favor: 0, comment: 0, author: '', favored: false, content: ''};
+    let article = {id: 0, title: '', vote: 0, comment: 0, author: '', voted: false, content: ''};
     this.state = {article: article};
 
     fetch (baseUrl + 'form/detail/discussion/' + params.id + '/')
@@ -46,9 +46,9 @@ export default class DiscussionDetail extends Component {
       });
   }
 
-  favor() {
+  vote() {
     let article = this.state.article;
-    article.favored = !article.favored;
+    article.voted = !article.voted;
     this.setState({article: article});
   }
 
@@ -81,11 +81,11 @@ export default class DiscussionDetail extends Component {
 
         <Footer style={styles.footer}>
           <View style={styles.footerContent}>
-            <Button transparent onPress={this.favor}>
-              <Icon name={article.favored ? 'md-heart' : 'md-heart-outline'} style={styles.footerIcon}/>
+            <Button transparent onPress={this.vote}>
+              <Icon name={article.voted ? 'md-heart' : 'md-heart-outline'} style={styles.footerIcon}/>
             </Button>
             <Text style={styles.footerText}>
-              {article.favor}
+              {article.vote}
             </Text>
           </View>
 

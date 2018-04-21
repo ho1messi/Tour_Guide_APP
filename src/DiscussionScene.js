@@ -53,7 +53,7 @@ export default class ArticleScene extends BaseComponent {
               <Text style={styles.listItemContent}>{d.content}</Text>
 
               <View style={styles.listFoot}>
-                <Text style={styles.listFootText}>{d.favor}赞同</Text>
+                <Text style={styles.listFootText}>{d.vote}赞同</Text>
                 <Text style={styles.listFootText}>{d.comment}评论</Text>
               </View>
 

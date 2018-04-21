@@ -122,7 +122,7 @@ export default class MapScene extends BaseComponent {
                  onLocation={({nativeEvent}) => {
                    this.coord.latitude = nativeEvent.latitude;
                    this.coord.longitude = nativeEvent.longitude;
-                   console.log(`${nativeEvent.latitude}, ${nativeEvent.longitude}`);
+                   //console.log(`${nativeEvent.latitude}, ${nativeEvent.longitude}`);
                  }} >
           {this.renderMarkers()}
         </MapView>
