@@ -50,7 +50,7 @@ export default class ArticleScene extends BaseComponent {
           <TouchableHighlight style={styles.listButton} onPress={() => this._pressRow(d.id)}>
             <View style={styles.listItem}>
               <Text style={styles.listItemTitle}>{d.title}</Text>
-              <Text style={styles.listItemContent}>{d.content}</Text>
+              <Text numberOfLines={3} style={styles.listItemContent}>{d.content}</Text>
 
               <View style={styles.listFoot}>
                 <Text style={styles.listFootText}>{d.vote}赞同</Text>
@@ -80,10 +80,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   listItemTitle: {
-    fontSize: 24,
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   listItemContent: {
-    fontSize: 18,
+    fontSize: 16,
   },
   listFoot: {
     flexDirection: 'row',

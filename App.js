@@ -36,7 +36,7 @@ import CommentScene from './src/DiscussionScene';
 import MapScene from './src/MapScene';
 import UserScene from './src/UserScene';
 
-import ArticleDetail from './src/AticleDetail';
+import ArticleDetail from './src/ArticleDetail';
 import DiscussionDetail from './src/DiscussionDetail';
 import PublicArticle from './src/PublicArticle';
 import ChooseArea from './src/ChooseArea';

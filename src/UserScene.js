@@ -35,62 +35,32 @@ class Scene1 extends Component {
       <Content style={styles.content}>
         <Separator bordered style={styles.separator}>
           <Text style={styles.separatorText}>
-            111
+            用户
           </Text>
         </Separator>
         <ListItem style={styles.listItem}>
           <Text style={styles.listText}>
-            aaa
+            我的关注
           </Text>
         </ListItem>
         <ListItem style={styles.listItem}>
           <Text style={styles.listText}>
-            aaa
+            我的文章
           </Text>
         </ListItem>
         <ListItem style={styles.listItem}>
           <Text style={styles.listText}>
-            aaa
+            我的讨论
           </Text>
         </ListItem>
         <ListItem style={styles.listItem}>
           <Text style={styles.listText}>
-            aaa
-          </Text>
-        </ListItem>
-        <Separator bordered style={styles.separator}>
-          <Text style={styles.separatorText}>
-            222
-          </Text>
-        </Separator>
-        <ListItem style={styles.listItem}>
-          <Text style={styles.listText}>
-            aaa
+            我的回复
           </Text>
         </ListItem>
         <ListItem style={styles.listItem}>
           <Text style={styles.listText}>
-            aaa
-          </Text>
-        </ListItem>
-        <ListItem style={styles.listItem}>
-          <Text style={styles.listText}>
-            aaa
-          </Text>
-        </ListItem>
-        <ListItem style={styles.listItem}>
-          <Text style={styles.listText}>
-            aaa
-          </Text>
-        </ListItem>
-        <ListItem style={styles.listItem}>
-          <Text style={styles.listText}>
-            aaa
-          </Text>
-        </ListItem>
-        <ListItem style={styles.listItem}>
-          <Text style={styles.listText}>
-            aaa
+            修改密码
           </Text>
         </ListItem>
         <ListItem style={styles.listItem} onPress={this.props.onFunc}>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   BackHandler,
   ListView,
+  NativeEventEmitter,
   ScrollView,
   StyleSheet,
   Text,
@@ -26,7 +27,7 @@ import {
 
 const baseUrl = 'http://ho1messi.in.8866.org:8629/';
 
-export default class AticleDetail extends Component {
+export default class ArticleDetail extends Component {
   constructor(props) {
     super(props);
 
@@ -44,7 +45,15 @@ export default class AticleDetail extends Component {
     let article = {id: 0, title: '', vote: 0, comment: 0, author: '', voted: false, content: ''};
     this.state = {article: article};
 
+    let startFlag = false;
+    let playFlag = false;
+
+
     Synthesizer.init('5adaf59b');
+    this.SynthesizerEventEmitter = new NativeEventEmitter(Synthesizer);
+    this.SynthesizerEventEmitter.addListener('onSynthesizerBufferCompletedEvent', this.onSynthesizerBufferCompletedEvent);
+    this.SynthesizerEventEmitter.addListener('onSynthesizerSpeakCompletedEvent', this.onSynthesizerBufferCompletedEvent);
+    //Synthesizer.start('开始');
 
     fetch (baseUrl + 'form/detail/article/' + params.id + '/')
       .then((response) => response.json())
@@ -56,8 +65,35 @@ export default class AticleDetail extends Component {
       });
   }
 
+  componentDidMount() {
+  }
+
+  onSynthesizerBufferCompletedEvent() {
+    console.log('begin');
+    this.playFlag = true;
+  }
+
+  onSynthesizerSpeakCompletedEvent() {
+    console.log('speak');
+    this.playFlag = false;
+  }
+
   speak() {
-    Synthesizer.start(this.state.article.content);
+    if (this.startFlag) {
+      if (this.playFlag) {
+        Synthesizer.pause();
+        this.playFlag = false;
+      }
+      else {
+        Synthesizer.resume();
+        this.playFlag = true;
+      }
+    }
+    else {
+      Synthesizer.start(this.state.article.content);
+      this.startFlag = true;
+      this.playFlag = true;
+    }
 
     /*
     Tts.getInitStatus()
