@@ -88,7 +88,7 @@ class Scene2 extends Component {
               <Input placeholder={'用户名'} style={styles.textInput} onChangeText={this.props.userNameInput}/>
             </Item>
             <Item style={styles.formItem}>
-              <Input placeholder={'密码'} style={styles.textInput} onChangeText={this.props.passwordInput}/>
+              <Input secureTextEntry placeholder={'密码'} style={styles.textInput} onChangeText={this.props.passwordInput}/>
             </Item>
           </Form>
           <Content style={styles.buttonContainer}>
