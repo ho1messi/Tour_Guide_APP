@@ -38,8 +38,12 @@ import UserScene from './src/UserScene';
 
 import ArticleDetail from './src/ArticleDetail';
 import DiscussionDetail from './src/DiscussionDetail';
+import AreaDetial from './src/AreaDetail';
+import SpotDetial from './src/SpotDetail';
 import PublicArticle from './src/PublicArticle';
-import ChooseArea from './src/ChooseArea';
+import PublicDiscussion from './src/PublicDiscussion';
+import SelectArea from './src/SelectArea';
+import SelectSpot from './src/SelectSpot';
 
 const tabs = [
   'article',
@@ -60,6 +64,7 @@ class HomeScreen extends Component {
     this.onHeaderButton = this.onHeaderButton.bind(this);
     this.jumpToArticleDetail = this.jumpToArticleDetail.bind(this);
     this.jumpToCommentDetail = this.jumpToCommentDetail.bind(this);
+    this.jumpToAreaDetail = this.jumpToAreaDetail.bind(this);
     this.setLoginState = this.setLoginState.bind(this);
 
     HomeScreen.screen = this;
@@ -94,9 +99,17 @@ class HomeScreen extends Component {
   onHeaderButton() {
     switch (this.state.selectedTab) {
       case 0:
-        this.props.navigation.navigate('PublicArticle');
+        if (this.user.userId)
+          this.props.navigation.navigate('SelectArea', {op: 'PublicArticle'});
+        else
+          alert('请先登录');
         break;
       case 1:
+        if (this.user.userId)
+          this.props.navigation.navigate('SelectArea', {op: 'PublicDiscussion'});
+        else
+          alert('请先登录');
+        break;
       case 2:
       case 3:
         break;
@@ -123,6 +136,10 @@ class HomeScreen extends Component {
     });
   }
 
+  jumpToAreaDetail(id) {
+    this.props.navigation.navigate('Area', {id: id});
+  }
+
   returnHeaderButton() {
     switch (this.state.selectedTab) {
       case 0:
@@ -131,6 +148,10 @@ class HomeScreen extends Component {
                   name={'ios-add-outline'} />
         );
       case 1:
+        return (
+          <Icon style={styles.headerIconBig}
+                name={'ios-add-outline'} />
+        );
         return (
             <ModalDropdown options={['评论景区', '评论景点']}
                            style={styles.headerMenu}
@@ -198,7 +219,7 @@ class HomeScreen extends Component {
             </Button>
             <Button onPress={() => {
                       this.setState({selectedTab: 2});
-                      BaseComponent.scene.nav().navigate('Map')
+                      BaseComponent.scene.nav().navigate('Map', {onJump: this.jumpToAreaDetail})
                     }}>
               <Icon name={'md-compass'}
                     style={
@@ -305,17 +326,29 @@ const RootStack = StackNavigator({
     Comment: {
       screen: DiscussionDetail,
     },
+    Area: {
+      screen: AreaDetial,
+    },
+    Spot: {
+      screen: SpotDetial,
+    },
     PublicArticle: {
       screen: PublicArticle,
     },
-    ChooseArea: {
-      screen: ChooseArea,
-    }
+    PublicDiscussion: {
+      screen: PublicDiscussion,
+    },
+    SelectArea: {
+      screen: SelectArea,
+    },
+    SelectSpot: {
+      screen: SelectSpot,
+    },
   },
   {
     headerMode: 'none',
     initialRouteName: 'Home',
-    //initialRouteName: 'ChooseArea',
+    //initialRouteName: 'SelectArea',
   },
 );
 

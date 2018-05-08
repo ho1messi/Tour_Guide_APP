@@ -17,7 +17,7 @@ import {
 
 const baseUrl = 'http://ho1messi.in.8866.org:8629/';
 
-export default class PublicArticle extends Component {
+export default class PublicDiscussion extends Component {
   constructor(props) {
     super(props);
 
@@ -31,7 +31,6 @@ export default class PublicArticle extends Component {
       spot: {id: 0, name: ''},
     }};
 
-    this.title = '';
     this.content = '';
 
     this.public = this.public.bind(this);
@@ -98,7 +97,7 @@ export default class PublicArticle extends Component {
             <Icon name={'ios-arrow-back'} style={styles.headerIconBig}/>
           </Button>
           <Text style={styles.headerText}>
-            发表攻略
+            添加讨论
           </Text>
           <Button transparent style={styles.headerButton} onPress={this.public}>
             <Icon name={'md-send'} style={styles.headerIcon}/>
@@ -106,10 +105,6 @@ export default class PublicArticle extends Component {
         </Header>
         {this.renderAreaAndSpot()}
         <View style={styles.content}>
-          <TextInput style={styles.inputTitle}
-                     multiline={true}
-                     onChangeText={(t) => this.title = t}
-                     placeholder={'添加标题'}/>
           <TextInput style={styles.inputContent}
                      multiline={true}
                      onChangeText={(t) => this.content = t}
@@ -148,10 +143,6 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingLeft: 20,
     paddingRight: 20,
-  },
-  inputTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
   },
   inputContent: {
     fontSize: 18,

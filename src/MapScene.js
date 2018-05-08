@@ -9,6 +9,7 @@ import {
 
 import {
   Icon,
+  Button,
 } from 'native-base';
 
 /*
@@ -32,6 +33,7 @@ export default class MapScene extends BaseComponent {
 
     this.renderMarker = this.renderMarker.bind(this);
     this.renderMarkers = this.renderMarkers.bind(this);
+    this._onPressMarkInfoButton = this._onPressMarkInfoButton.bind(this);
 
     //Initializer.init('Yk87phEBwxPOAyYx7WdEooBkV4NKwTjY').catch((e) => console.error(e));
 
@@ -42,7 +44,7 @@ export default class MapScene extends BaseComponent {
       longitude: 0,
     };
 
-    fetch (baseUrl + 'scenic/scenic_areas/', {
+    fetch (baseUrl + 'scenic/area_list/', {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -81,6 +83,11 @@ export default class MapScene extends BaseComponent {
     this.setState({marker: id});
   }
 
+  _onPressMarkInfoButton(id) {
+    const {params} = this.props.navigation.state;
+    params.onJump(id);
+  }
+
   renderMarker(marker) {
     return (
       <MapView.Marker icon={() =>
@@ -91,9 +98,11 @@ export default class MapScene extends BaseComponent {
                       onPress={() => this._onPressMarker(marker.id)}
                       key={marker.id + marker.name}>
         <View style={styles.markInfo}>
-          <Text style={styles.markInfoText}>
-            {marker.name}
-          </Text>
+          <Button transparent style={styles.markInfoButton} onPress={() => this._onPressMarkInfoButton(marker.id)}>
+            <Text style={styles.markInfoText}>
+              {marker.name}
+            </Text>
+          </Button>
         </View>
       </MapView.Marker>
     );
@@ -114,7 +123,7 @@ export default class MapScene extends BaseComponent {
       <View style={styles.content}>
         <MapView style={styles.map}
                  locationEnabled
-                 //locationInterval={10000}
+                 locationInterval={10000}
                  showsLocationButton
                  showsScale
                  rotateEnabled={false}
@@ -149,6 +158,13 @@ const styles = StyleSheet.create({
   markInfo: {
     backgroundColor: '#f36',
     padding: 5,
+  },
+  markInfoButton: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    paddingLeft: 5,
+    paddingRight: 5,
+    maxHeight: 30,
   },
   markInfoText: {
     color: '#fff',
