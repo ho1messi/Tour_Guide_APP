@@ -67,7 +67,11 @@ export default class SelectArea extends Component {
             <ListItem onPress={() => this._pressRow(d.id)}>
               <Text>{d.name}</Text>
             </ListItem>
-          } />
+          }>
+            <ListItem itemHeader first>
+              header
+            </ListItem>
+          </List>
         </Content>
       </Container>
     );

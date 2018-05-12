@@ -64,9 +64,9 @@ export default class MapScene extends BaseComponent {
     let minDist = 100000.0;
     let minIndex = 0;
     for (let i = 0; i < length; i++) {
-      let dist = this.distanceToMarker(markers[i]);
-      if (dist < minDist) {
-        minDist = dist;
+      let d = this.distanceToMarker(markers[i]);
+      if (d < minDist) {
+        minDist = d;
         minIndex = i;
       }
     }

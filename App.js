@@ -137,7 +137,9 @@ class HomeScreen extends Component {
   }
 
   jumpToAreaDetail(id) {
-    this.props.navigation.navigate('Area', {id: id});
+    this.props.navigation.navigate('AreaDetail', {
+      id: id,
+    });
   }
 
   returnHeaderButton() {
@@ -326,10 +328,10 @@ const RootStack = StackNavigator({
     Comment: {
       screen: DiscussionDetail,
     },
-    Area: {
+    AreaDetail: {
       screen: AreaDetial,
     },
-    Spot: {
+    SpotDetail: {
       screen: SpotDetial,
     },
     PublicArticle: {
@@ -348,7 +350,7 @@ const RootStack = StackNavigator({
   {
     headerMode: 'none',
     initialRouteName: 'Home',
-    //initialRouteName: 'SelectArea',
+    //initialRouteName: 'AreaDetail',
   },
 );
 
