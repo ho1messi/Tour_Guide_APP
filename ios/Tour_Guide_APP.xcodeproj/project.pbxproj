@@ -51,6 +51,7 @@
 		09F9F2B989584BD6B457F5E6 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6A41B2A6E25412486F6A4B8 /* Zocial.ttf */; };
 		85D1A51174AD4329B960380A /* libTextToSpeech.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 65E324BA29E84ECCB2B5EB5D /* libTextToSpeech.a */; };
 		F825A6DBB10545CDB8FD2434 /* libRNSpeechIFlytek.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F91B725B2B774421825F5AF0 /* libRNSpeechIFlytek.a */; };
+		D70C3AC6F42E487B970FC719 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A77CDA22D6B4389ACDB8710 /* libRNImagePicker.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -372,6 +373,8 @@
 		65E324BA29E84ECCB2B5EB5D /* libTextToSpeech.a */ = {isa = PBXFileReference; name = "libTextToSpeech.a"; path = "libTextToSpeech.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		3AC470A6B86645568AE02CD8 /* RNSpeechIFlytek.xcodeproj */ = {isa = PBXFileReference; name = "RNSpeechIFlytek.xcodeproj"; path = "../node_modules/react-native-speech-iflytek/ios/RNSpeechIFlytek.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		F91B725B2B774421825F5AF0 /* libRNSpeechIFlytek.a */ = {isa = PBXFileReference; name = "libRNSpeechIFlytek.a"; path = "libRNSpeechIFlytek.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		8E00373D430B466DB101150D /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; name = "RNImagePicker.xcodeproj"; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		2A77CDA22D6B4389ACDB8710 /* libRNImagePicker.a */ = {isa = PBXFileReference; name = "libRNImagePicker.a"; path = "libRNImagePicker.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -402,6 +405,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				85D1A51174AD4329B960380A /* libTextToSpeech.a in Frameworks */,
 				F825A6DBB10545CDB8FD2434 /* libRNSpeechIFlytek.a in Frameworks */,
+				D70C3AC6F42E487B970FC719 /* libRNImagePicker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,6 +594,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				E7115A2CB8C7435BAAD3459E /* TextToSpeech.xcodeproj */,
 				3AC470A6B86645568AE02CD8 /* RNSpeechIFlytek.xcodeproj */,
+				8E00373D430B466DB101150D /* RNImagePicker.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1251,11 +1256,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-tts\ios\TextToSpeech",
 					"$(SRCROOT)\..\node_modules\react-native-speech-iflytek\ios\RNSpeechIFlytek/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 			};
 			name = Debug;
@@ -1278,11 +1285,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-tts\ios\TextToSpeech",
 					"$(SRCROOT)\..\node_modules\react-native-speech-iflytek\ios\RNSpeechIFlytek/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 			};
 			name = Release;
@@ -1306,6 +1315,7 @@
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-tts\ios\TextToSpeech",
 					"$(SRCROOT)\..\node_modules\react-native-speech-iflytek\ios\RNSpeechIFlytek/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 			};
 			name = Debug;
@@ -1328,6 +1338,7 @@
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-tts\ios\TextToSpeech",
 					"$(SRCROOT)\..\node_modules\react-native-speech-iflytek\ios\RNSpeechIFlytek/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 			};
 			name = Release;
@@ -1359,11 +1370,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-tts\ios\TextToSpeech",
 					"$(SRCROOT)\..\node_modules\react-native-speech-iflytek\ios\RNSpeechIFlytek/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 			};
 			name = Debug;
@@ -1395,11 +1408,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-tts\ios\TextToSpeech",
 					"$(SRCROOT)\..\node_modules\react-native-speech-iflytek\ios\RNSpeechIFlytek/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 			};
 			name = Release;
@@ -1430,11 +1445,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-tts\ios\TextToSpeech",
 					"$(SRCROOT)\..\node_modules\react-native-speech-iflytek\ios\RNSpeechIFlytek/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 			};
 			name = Debug;
@@ -1465,11 +1482,13 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)\..\node_modules\react-native-tts\ios\TextToSpeech",
 					"$(SRCROOT)\..\node_modules\react-native-speech-iflytek\ios\RNSpeechIFlytek/**",
+					"$(SRCROOT)\..\node_modules\react-native-image-picker\ios",
 				);
 			};
 			name = Release;

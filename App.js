@@ -45,12 +45,29 @@ import PublicDiscussion from './src/PublicDiscussion';
 import SelectArea from './src/SelectArea';
 import SelectSpot from './src/SelectSpot';
 
+const baseUrl = 'http://ho1messi.in.8866.org:8629/';
+
 const tabs = [
   'article',
   'comment',
   'map',
   'mine'
 ];
+
+let ImagePicker = require('react-native-image-picker');
+
+const imagePickerOptions = {
+  title: '选择图片',
+  cancelButtonTitle: '取消',
+  takePhotoButtonTitle: '拍照',
+  chooseFromLibraryButtonTitle: '相册',
+  maxHeight: 400,
+  maxWidth: 400,
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
+};
 
 class HomeScreen extends Component {
   static screen = null;
@@ -112,6 +129,37 @@ class HomeScreen extends Component {
         break;
       case 2:
       case 3:
+        ImagePicker.showImagePicker(imagePickerOptions, (response) => {
+          console.log('Response = ', response);
+
+          if (response.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (response.error) {
+            console.log('ImagePicker Error: ', response.error);
+          } else if (response.customButton) {
+            console.log('User tapped custom button: ', response.customButton);
+          } else {
+            console.log('ImagePicker URI: ', response.uri);
+
+            let formData = new FormData();
+            let file = {uri: response.uri, type: 'multipart/form-data', name: 'a.jpg'}
+
+            formData.append('img', file);
+
+            fetch (baseUrl + 'scenic/upload_image/', {
+              method: 'POST',
+              headers: {
+                'Content-type': 'multipart/form-data',
+              },
+              body: formData,
+            })
+              .then((response) => response.json())
+              .then((json) => {
+                console.log('response json: ', json)
+              })
+              .catch((err) => alert(err));
+          }
+        });
         break;
     }
   }
@@ -167,6 +215,10 @@ class HomeScreen extends Component {
         );
       case 2:
       case 3:
+        return (
+          <Icon style={styles.headerIcon}
+                name={'ios-qr-scanner'} />
+        );
         return (
             <ModalDropdown options={['拍照', '上传']}
                            style={styles.headerMenu}
