@@ -28,16 +28,20 @@ export default class AreaDetail extends Component {
       return true;
     });
 
-    this.state = {data: null};
-
     const {params} = this.props.navigation.state;
+    this.state = {data: null, area: params.area};
+
+    this.onJumpArticle = this.onJumpArticle.bind(this);
+    this.onJumpDiscussion = this.onJumpDiscussion.bind(this);
+    this.getAreaSelectionInfo = this.getAreaSelectionInfo.bind(this);
+
     //let params = {id: 1};
     fetch (baseUrl + 'scenic/detail/area/' + params.id, {
       method: 'GET',
     })
       .then((response) => response.json())
       .then((json) => {
-        this.setState({data: json.obj})
+        this.setState({data: json.obj, area: this.state.area})
       })
       .catch((err) => alert(err));
   }
@@ -50,6 +54,41 @@ export default class AreaDetail extends Component {
     }
   }
 
+  getAreaSelectionInfo() {
+    const {params} = this.props.navigation.state;
+    if (this.state.area === params.id)
+      return (
+        <ListItem style={styles.listAbout}>
+          <Text>
+            已选择当前景区
+          </Text>
+        </ListItem>
+      );
+    else
+      return (
+        <ListItem style={styles.listAbout} onPress={() => {
+          this.setState({data: this.state.data, area: params.id});
+          params.onSelect(this.state.data.id, this.state.data.name);
+        }}>
+          <Text>
+            切换到该景区
+          </Text>
+        </ListItem>
+      );
+  }
+
+  onJumpArticle() {
+    const {params} = this.props.navigation.state;
+    this.props.navigation.navigate('ArticleList', {
+      id: params.id,
+      type: 'area',
+    })
+  }
+
+  onJumpDiscussion() {
+
+  }
+
   _onPressRow(id) {
     this.props.navigation.navigate('SpotDetail', {
       id: id,
@@ -59,6 +98,7 @@ export default class AreaDetail extends Component {
   renderAreaDetail() {
     let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     let data = ds.cloneWithRows(this.state.data.spot_list);
+    const {params} = this.props.navigation.state;
     return (
       <View style={styles.content}>
         <ListView style={styles.list} dataSource={data} renderHeader={() =>
@@ -68,13 +108,14 @@ export default class AreaDetail extends Component {
                 {this.state.data.about}
               </Text>
             </ListItem>
+            {this.getAreaSelectionInfo()}
             <ListItem style={styles.listContent}>
-              <Button style={styles.listContentButton}>
+              <Button style={styles.listContentButton} onPress={this.onJumpArticle}>
                 <Text style={styles.listContentText}>
                   攻略
                 </Text>
               </Button>
-              <Button style={styles.listContentButton}>
+              <Button style={styles.listContentButton} onPress={this.onJumpDiscussion}>
                 <Text style={styles.listContentText}>
                   讨论
                 </Text>

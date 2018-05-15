@@ -32,7 +32,7 @@ export default class AreaDetail extends Component {
 
     const {params} = this.props.navigation.state;
     //let params = {id: 1};
-    fetch (baseUrl + 'scenic/detail/spot/' + params.id, {
+    fetch (baseUrl + 'scenic/detail/area_and_spot/' + params.id, {
       method: 'GET',
     })
       .then((response) => response.json())
@@ -44,7 +44,7 @@ export default class AreaDetail extends Component {
 
   getSpotName() {
     if (this.state.data) {
-      return this.state.data.name;
+      return this.state.data.spot.name;
     } else {
       return '';
     }
@@ -54,19 +54,24 @@ export default class AreaDetail extends Component {
     return (
       <View style={styles.content}>
         <List style={styles.list}>
-          <ListItem style={styles.listHeader}>
-            <Text style={styles.listHeaderText}>
-              {this.state.data.area_name}
+          <Separator style={styles.separator}>
+            <Text style={styles.separatorText}>
+              {this.state.data.area.name}
+            </Text>
+          </Separator>
+          <ListItem style={styles.listAbout}>
+            <Text style={styles.listAboutText}>
+              {this.state.data.area.about}
             </Text>
           </ListItem>
           <Separator style={styles.separator}>
             <Text style={styles.separatorText}>
-
+              景点介绍
             </Text>
           </Separator>
           <ListItem style={styles.listAbout}>
             <Text>
-              {this.state.data.about}
+              {this.state.data.spot.about}
             </Text>
           </ListItem>
           <ListItem style={styles.listContent}>
@@ -149,14 +154,9 @@ const styles = StyleSheet.create({
   list: {
 
   },
-  listHeader: {
-
-  },
-  listHeaderText: {
-
-  },
   separator: {
     backgroundColor: '#ddd',
+    flexBasis: 35,
   },
   separatorText: {
 
@@ -178,11 +178,5 @@ const styles = StyleSheet.create({
   },
   listContentText: {
     color: '#fff',
-  },
-  listRow: {
-
-  },
-  listRowText: {
-
   },
 });

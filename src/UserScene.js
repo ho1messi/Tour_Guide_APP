@@ -30,9 +30,34 @@ class Scene1 extends Component {
     super(props);
   }
 
+  getAreaInfo() {
+    if (this.props.area === '')
+      return (
+        <ListItem style={styles.listItem}>
+          <Text style={styles.listText}>
+            无
+          </Text>
+        </ListItem>
+      );
+    else
+      return (
+        <ListItem style={styles.listItem}>
+          <Text style={styles.listText}>
+            {this.props.area}
+          </Text>
+        </ListItem>
+      );
+  }
+
   render() {
     return (
       <Content style={styles.content}>
+        <Separator bordered style={styles.separator}>
+          <Text style={styles.separatorText}>
+            当前景区
+          </Text>
+        </Separator>
+        {this.getAreaInfo()}
         <Separator bordered style={styles.separator}>
           <Text style={styles.separatorText}>
             用户
@@ -111,7 +136,10 @@ class Scene2 extends Component {
 export default class UserScene extends BaseComponent {
   constructor(props) {
     super(props);
+
+    const {params} = this.props.navigation.state;
     this.state = {jsonData: false};
+    this.area = params.area;
 
     this.checkState = this.checkState.bind(this);
     this.login = this.login.bind(this);
@@ -125,8 +153,6 @@ export default class UserScene extends BaseComponent {
     this.usernameT = '';
     this.passwordT = '';
     this.user = {userName: '', userId: 0};
-
-    const {params} = this.props.navigation.state;
 
     if (params.updateFlag) {
       this.checkState();
@@ -221,7 +247,11 @@ export default class UserScene extends BaseComponent {
   render() {
 
     if (this.user.userName)
-      return (<Scene1 onFunc={this.logout}/>);
+      return (
+        <Scene1
+          area={this.area}
+          onFunc={this.logout}
+        />);
     else
       return (
         <Scene2
