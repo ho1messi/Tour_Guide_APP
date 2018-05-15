@@ -30,6 +30,9 @@ export default class AreaDetail extends Component {
 
     this.state = {data: null};
 
+    this.onJumpArticle = this.onJumpArticle.bind(this);
+    this.onJumpDiscussion = this.onJumpDiscussion.bind(this);
+
     const {params} = this.props.navigation.state;
     //let params = {id: 1};
     fetch (baseUrl + 'scenic/detail/area_and_spot/' + params.id, {
@@ -48,6 +51,24 @@ export default class AreaDetail extends Component {
     } else {
       return '';
     }
+  }
+
+  onJumpArticle() {
+    const {params} = this.props.navigation.state;
+    this.props.navigation.navigate('ArticleList', {
+      id: params.id,
+      str1: 'spot',
+      str2: 'article',
+    })
+  }
+
+  onJumpDiscussion() {
+    const {params} = this.props.navigation.state;
+    this.props.navigation.navigate('ArticleList', {
+      id: params.id,
+      str1: 'spot',
+      str2: 'discussion',
+    })
   }
 
   renderSpotDetail() {
@@ -75,12 +96,12 @@ export default class AreaDetail extends Component {
             </Text>
           </ListItem>
           <ListItem style={styles.listContent}>
-            <Button style={styles.listContentButton}>
+            <Button style={styles.listContentButton} onPress={this.onJumpArticle}>
               <Text style={styles.listContentText}>
                 攻略
               </Text>
             </Button>
-            <Button style={styles.listContentButton}>
+            <Button style={styles.listContentButton} onPress={this.onJumpDiscussion}>
               <Text style={styles.listContentText}>
                 讨论
               </Text>

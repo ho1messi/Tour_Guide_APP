@@ -81,12 +81,18 @@ export default class AreaDetail extends Component {
     const {params} = this.props.navigation.state;
     this.props.navigation.navigate('ArticleList', {
       id: params.id,
-      type: 'area',
+      str1: 'area',
+      str2: 'article',
     })
   }
 
   onJumpDiscussion() {
-
+    const {params} = this.props.navigation.state;
+    this.props.navigation.navigate('ArticleList', {
+      id: params.id,
+      str1: 'area',
+      str2: 'discussion',
+    })
   }
 
   _onPressRow(id) {
@@ -98,10 +104,10 @@ export default class AreaDetail extends Component {
   renderAreaDetail() {
     let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     let data = ds.cloneWithRows(this.state.data.spot_list);
-    const {params} = this.props.navigation.state;
     return (
       <View style={styles.content}>
-        <ListView style={styles.list} dataSource={data} renderHeader={() =>
+        <ListView style={styles.list} enableEmptySections={true}
+                  dataSource={data} renderHeader={() =>
           <List style={styles.listHeader}>
             <ListItem style={styles.listAbout}>
               <Text>

@@ -93,7 +93,7 @@ class HomeScreen extends Component {
 
     this.onHeaderButton = this.onHeaderButton.bind(this);
     this.jumpToArticleDetail = this.jumpToArticleDetail.bind(this);
-    this.jumpToCommentDetail = this.jumpToCommentDetail.bind(this);
+    this.jumpToDiscussionDetail = this.jumpToDiscussionDetail.bind(this);
     this.jumpToAreaDetail = this.jumpToAreaDetail.bind(this);
     this.jumpToSpotDetail = this.jumpToSpotDetail.bind(this);
     this.setLoginState = this.setLoginState.bind(this);
@@ -205,13 +205,13 @@ class HomeScreen extends Component {
   }
 
   jumpToArticleDetail(id) {
-    this.props.navigation.navigate('Article', {
+    this.props.navigation.navigate('ArticleDetail', {
       id: id,
     });
   }
 
-  jumpToCommentDetail(id) {
-    this.props.navigation.navigate('Comment', {
+  jumpToDiscussionDetail(id) {
+    this.props.navigation.navigate('DiscussionDetail', {
       id: id,
     });
   }
@@ -342,7 +342,7 @@ class HomeScreen extends Component {
             </Button>
             <Button onPress={() => {
                       this.setState({selectedTab: 1});
-                      BaseComponent.scene.nav().navigate('Comment', {onJump: this.jumpToCommentDetail})
+                      BaseComponent.scene.nav().navigate('Comment', {onJump: this.jumpToDiscussionDetail})
                     }}>
               <Icon name={'ios-text'}
                     style={
@@ -492,10 +492,10 @@ const RootStack = StackNavigator({
     Home: {
       screen: HomeScreen,
     },
-    Article: {
+    ArticleDetail: {
       screen: ArticleDetail,
     },
-    Comment: {
+    DiscussionDetail: {
       screen: DiscussionDetail,
     },
     AreaDetail: {
@@ -522,9 +522,9 @@ const RootStack = StackNavigator({
   },
   {
     headerMode: 'none',
-    //initialRouteName: 'Home',
-    initialRouteName: 'AreaDetail',
-    initialRouteParams: {id: 2},
+    initialRouteName: 'Home',
+    //initialRouteName: 'AreaDetail',
+    //initialRouteParams: {id: 2},
   },
 );
 
