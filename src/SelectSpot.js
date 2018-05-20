@@ -50,14 +50,14 @@ export default class SelectSpot extends Component {
   _pressRow(spot_id, area_id) {
     const {params} = this.props.navigation.state;
     switch (params.op) {
-      case 'PublicArticle':
-        this.props.navigation.navigate('PublicArticle', {
+      case 'PublishArticle':
+        this.props.navigation.navigate('PublishArticle', {
           spot_id: spot_id,
           area_id: area_id,
         });
         break;
-      case 'PublicDiscussion':
-        this.props.navigation.navigate('PublicDiscussion', {
+      case 'PublishDiscussion':
+        this.props.navigation.navigate('PublishDiscussion', {
           spot_id: spot_id,
           area_id: area_id,
         });

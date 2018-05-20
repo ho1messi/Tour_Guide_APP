@@ -45,10 +45,11 @@ import UserScene from './src/UserScene';
 
 import ArticleDetail from './src/ArticleDetail';
 import DiscussionDetail from './src/DiscussionDetail';
+import CommentDetail from './src/CommentDetail';
 import AreaDetial from './src/AreaDetail';
 import SpotDetial from './src/SpotDetail';
-import PublicArticle from './src/PublicArticle';
-import PublicDiscussion from './src/PublicDiscussion';
+import PublishArticle from './src/PublishArticle';
+import PublishDiscussion from './src/PublishDiscussion';
 import SelectArea from './src/SelectArea';
 import SelectSpot from './src/SelectSpot';
 import ArticleList from './src/ArticleList';
@@ -58,7 +59,7 @@ const baseUrl = 'http://ho1messi.in.8866.org:8629/';
 
 const tabs = [
   'article',
-  'comment',
+  'content',
   'map',
   'mine'
 ];
@@ -141,13 +142,13 @@ class HomeScreen extends Component {
     switch (this.state.selectedTab) {
       case 0:
         if (this.user.userId)
-          this.props.navigation.navigate('SelectArea', {op: 'PublicArticle'});
+          this.props.navigation.navigate('SelectArea', {op: 'PublishArticle'});
         else
           alert('请先登录');
         break;
       case 1:
         if (this.user.userId)
-          this.props.navigation.navigate('SelectArea', {op: 'PublicDiscussion'});
+          this.props.navigation.navigate('SelectArea', {op: 'PublishDiscussion'});
         else
           alert('请先登录');
         break;
@@ -171,7 +172,7 @@ class HomeScreen extends Component {
 
               formData.append('img', file);
 
-              fetch (baseUrl + 'scenic/upload_image/' + this.area, {
+              fetch (baseUrl + 'scenic/upload_image/' + this.area.id, {
                 method: 'POST',
                 headers: {
                   'Content-type': 'multipart/form-data',
@@ -498,17 +499,20 @@ const RootStack = StackNavigator({
     DiscussionDetail: {
       screen: DiscussionDetail,
     },
+    CommentDetail: {
+      screen: CommentDetail,
+    },
     AreaDetail: {
       screen: AreaDetial,
     },
     SpotDetail: {
       screen: SpotDetial,
     },
-    PublicArticle: {
-      screen: PublicArticle,
+    PublishArticle: {
+      screen: PublishArticle,
     },
-    PublicDiscussion: {
-      screen: PublicDiscussion,
+    PublishDiscussion: {
+      screen: PublishDiscussion,
     },
     SelectArea: {
       screen: SelectArea,
@@ -523,8 +527,8 @@ const RootStack = StackNavigator({
   {
     headerMode: 'none',
     initialRouteName: 'Home',
-    //initialRouteName: 'AreaDetail',
-    //initialRouteParams: {id: 2},
+    //initialRouteName: 'CommentDetail',
+    //initialRouteParams: {id: 2, type: 'discussion'},
   },
 );
 

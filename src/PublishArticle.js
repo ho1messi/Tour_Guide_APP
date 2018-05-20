@@ -17,7 +17,7 @@ import {
 
 const baseUrl = 'http://ho1messi.in.8866.org:8629/';
 
-export default class PublicDiscussion extends Component {
+export default class PublishArticle extends Component {
   constructor(props) {
     super(props);
 
@@ -31,6 +31,7 @@ export default class PublicDiscussion extends Component {
       spot: {id: 0, name: ''},
     }};
 
+    this.title = '';
     this.content = '';
 
     this.public = this.public.bind(this);
@@ -42,8 +43,26 @@ export default class PublicDiscussion extends Component {
   }
 
   public() {
-    //------------------------------------------
-    alert(this.title);
+    let formData = new FormData();
+    formData.append('title', this.title);
+    formData.append('content', this.content);
+    if (this.state.data.area.id)
+      formData.append('area', this.state.data.area.id);
+    if (this.state.data.spot.id)
+      formData.append('spot', this.state.data.spot.id);
+
+    fetch (baseUrl + 'form/publish/article/', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.obj) {
+          let id = json.obj.id;
+          this.props.navigation.navigate('Home')
+        }
+      })
+      .catch((err) => alert(err));
   }
 
   getAreaAndSpot(area_id, spot_id) {
@@ -97,7 +116,7 @@ export default class PublicDiscussion extends Component {
             <Icon name={'ios-arrow-back'} style={styles.headerIconBig}/>
           </Button>
           <Text style={styles.headerText}>
-            添加讨论
+            发表攻略
           </Text>
           <Button transparent style={styles.headerButton} onPress={this.public}>
             <Icon name={'md-send'} style={styles.headerIcon}/>
@@ -105,6 +124,10 @@ export default class PublicDiscussion extends Component {
         </Header>
         {this.renderAreaAndSpot()}
         <View style={styles.content}>
+          <TextInput style={styles.inputTitle}
+                     multiline={true}
+                     onChangeText={(t) => this.title = t}
+                     placeholder={'添加标题'}/>
           <TextInput style={styles.inputContent}
                      multiline={true}
                      onChangeText={(t) => this.content = t}
@@ -143,6 +166,10 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingLeft: 20,
     paddingRight: 20,
+  },
+  inputTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
   },
   inputContent: {
     fontSize: 18,

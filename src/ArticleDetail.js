@@ -106,12 +106,35 @@ export default class ArticleDetail extends Component {
 
   vote() {
     let article = this.state.article;
-    article.voted = !article.voted;
-    this.setState({article: article});
+
+    let formData = new FormData();
+    formData.append('article', article.id);
+
+    fetch (baseUrl + 'form/publish/vote/', {
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.err)
+          alert(json.err);
+        else {
+          if (article.voted)
+            article.vote--;
+          else
+            article.vote++;
+          article.voted = !article.voted;
+          this.setState({article: article});
+        }
+      })
   }
 
   comment() {
-    alert('comment');
+    const {params} = this.props.navigation.state;
+    this.props.navigation.navigate('CommentDetail', {
+      id: params.id,
+      type: 'article',
+    });
   }
 
   render() {
