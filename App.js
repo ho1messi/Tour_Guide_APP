@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import {
+  AsyncStorage,
   BackHandler,
   Image,
   ListView,
@@ -36,6 +37,8 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import PopupDialog, {
   DialogButton,
 } from 'react-native-popup-dialog';
+
+import Storage from 'react-native-storage';
 
 import BaseComponent from './src/BaseComponent';
 import ArticleScene from './src/ArticleScene';
@@ -79,6 +82,11 @@ const imagePickerOptions = {
     path: 'images',
   },
 };
+
+const storage = new Storage({
+  defaultExpires: 24 * 3600,
+  storageBackend: AsyncStorage,
+});
 
 class HomeScreen extends Component {
   static screen = null;
@@ -131,8 +139,59 @@ class HomeScreen extends Component {
           onJumpCommentList: this.jumpToCommentList,
         },
       },
-    );
+    )
+ }
 
+  async componentWillMount() {
+
+    let ret = await storage.load({
+      key: 'currentArea',
+      autoSync: false,
+    })
+      .then((ret) => {
+        this.area = ret;
+        console.log(ret);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+        console.log(err.name);
+        if (err.name === 'NotFoundError')
+          console.log(err);
+        else if (err.name === 'ExpiredError')
+          console.log(err);
+        else
+          alert(err.message);
+      });
+
+    // 重新载入以刷新 UserScene
+    HomeScreen.ContentStack = StackNavigator({
+        Article: {
+          screen: ArticleScene,
+        },
+        Comment: {
+          screen: CommentScene,
+        },
+        Map: {
+          screen: MapScene,
+        },
+        User: {
+          screen: UserScene,
+        }
+      },
+      {
+        headerMode: 'none',
+        initialRouteName: 'User',
+        initialRouteParams: {
+          setLoginState: this.setLoginState,
+          updateFlag: true,
+          user: this.user,
+          area: this.area,
+          onJumpArea: this.jumpToAreaDetail,
+          onJumpArticleList: this.jumpToArticleList,
+          onJumpCommentList: this.jumpToCommentList,
+        },
+      },
+    )
   }
 
   setLoginState(u) {
@@ -142,6 +201,12 @@ class HomeScreen extends Component {
 
   setArea(id, name) {
     this.area = {id: id, name: name};
+    console.log('set area');
+    storage.save({
+      key: 'currentArea',
+      data: this.area,
+      expires: null,
+    })
   }
 
   onHeaderButton() {
@@ -329,6 +394,7 @@ class HomeScreen extends Component {
   }
 
   render() {
+    console.log('render', this.area);
 
     return (
       <View style={styles.container}>
