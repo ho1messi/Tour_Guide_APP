@@ -28,10 +28,12 @@ const baseUrl = 'http://ho1messi.in.8866.org:8629/';
 class Scene1 extends Component {
   constructor(props) {
     super(props);
+
+    this.getAreaInfo = this.getAreaInfo.bind(this);
   }
 
   getAreaInfo() {
-    if (this.props.area === '')
+    if (this.props.area.name === '') {
       return (
         <ListItem style={styles.listItem}>
           <Text style={styles.listText}>
@@ -39,14 +41,16 @@ class Scene1 extends Component {
           </Text>
         </ListItem>
       );
-    else
+    }
+    else {
       return (
-        <ListItem style={styles.listItem}>
+        <ListItem style={styles.listItem} onPress={() => this.props.onJumpArea(this.props.area.id)}>
           <Text style={styles.listText}>
-            {this.props.area}
+            {this.props.area.name}
           </Text>
         </ListItem>
       );
+    }
   }
 
   render() {
@@ -63,32 +67,36 @@ class Scene1 extends Component {
             用户
           </Text>
         </Separator>
-        <ListItem style={styles.listItem}>
+        {/*
+          <ListItem style={styles.listItem}>
+            <Text style={styles.listText}>
+              我的关注
+            </Text>
+          </ListItem>
+        */}
+        <ListItem style={styles.listItem} onPress={() => this.props.onJumpArticleList('user', 'article', '')}>
           <Text style={styles.listText}>
-            我的关注
+            我的攻略
           </Text>
         </ListItem>
-        <ListItem style={styles.listItem}>
-          <Text style={styles.listText}>
-            我的文章
-          </Text>
-        </ListItem>
-        <ListItem style={styles.listItem}>
+        <ListItem style={styles.listItem} onPress={() => this.props.onJumpArticleList('user', 'discussion', '')}>
           <Text style={styles.listText}>
             我的讨论
           </Text>
         </ListItem>
-        <ListItem style={styles.listItem}>
+        <ListItem style={styles.listItem} onPress={() => this.props.onJumpCommentList('user', '')}>
           <Text style={styles.listText}>
             我的回复
           </Text>
         </ListItem>
+        {/*
         <ListItem style={styles.listItem}>
           <Text style={styles.listText}>
             修改密码
           </Text>
         </ListItem>
-        <ListItem style={styles.listItem} onPress={this.props.onFunc}>
+        */}
+        <ListItem style={styles.listItem} onPress={this.props.onLogout}>
           <Text style={styles.listText}>
             退出
           </Text>
@@ -140,6 +148,7 @@ export default class UserScene extends BaseComponent {
     const {params} = this.props.navigation.state;
     this.state = {jsonData: false};
     this.area = params.area;
+    this.onJump = params.onJump;
 
     this.checkState = this.checkState.bind(this);
     this.login = this.login.bind(this);
@@ -246,11 +255,16 @@ export default class UserScene extends BaseComponent {
 
   render() {
 
+    const {params} = this.props.navigation.state;
+
     if (this.user.userName)
       return (
         <Scene1
-          area={this.area}
-          onFunc={this.logout}
+          area={params.area}
+          onLogout={this.logout}
+          onJumpArea={params.onJumpArea}
+          onJumpArticleList={params.onJumpArticleList}
+          onJumpCommentList={params.onJumpCommentList}
         />);
     else
       return (

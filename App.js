@@ -46,13 +46,14 @@ import UserScene from './src/UserScene';
 import ArticleDetail from './src/ArticleDetail';
 import DiscussionDetail from './src/DiscussionDetail';
 import CommentDetail from './src/CommentDetail';
-import AreaDetial from './src/AreaDetail';
-import SpotDetial from './src/SpotDetail';
+import AreaDetail from './src/AreaDetail';
+import SpotDetail from './src/SpotDetail';
 import PublishArticle from './src/PublishArticle';
 import PublishDiscussion from './src/PublishDiscussion';
 import SelectArea from './src/SelectArea';
 import SelectSpot from './src/SelectSpot';
 import ArticleList from './src/ArticleList';
+import CommentList from './src/CommentList';
 
 
 const baseUrl = 'http://ho1messi.in.8866.org:8629/';
@@ -97,6 +98,8 @@ class HomeScreen extends Component {
     this.jumpToDiscussionDetail = this.jumpToDiscussionDetail.bind(this);
     this.jumpToAreaDetail = this.jumpToAreaDetail.bind(this);
     this.jumpToSpotDetail = this.jumpToSpotDetail.bind(this);
+    this.jumpToArticleList = this.jumpToArticleList.bind(this);
+    this.jumpToCommentList = this.jumpToCommentList.bind(this);
     this.setLoginState = this.setLoginState.bind(this);
     this.setArea = this.setArea.bind(this);
 
@@ -122,7 +125,10 @@ class HomeScreen extends Component {
           setLoginState: this.setLoginState,
           updateFlag: true,
           user: this.user,
-          area: this.area.name
+          area: this.area,
+          onJumpArea: this.jumpToAreaDetail,
+          onJumpArticleList: this.jumpToArticleList,
+          onJumpCommentList: this.jumpToCommentList,
         },
       },
     );
@@ -229,6 +235,21 @@ class HomeScreen extends Component {
     this.props.navigation.navigate('SpotDetail', {
       id: id,
     });
+  }
+
+  jumpToArticleList(str1, str2, id) {
+    this.props.navigation.navigate('ArticleList', {
+      str1: str1,
+      str2: str2,
+      id: id,
+    })
+  }
+
+  jumpToCommentList(type, id) {
+    this.props.navigation.navigate('CommentList', {
+      type: type,
+      id: id,
+    })
   }
 
   returnHeaderButton() {
@@ -365,7 +386,10 @@ class HomeScreen extends Component {
                         setLoginState: this.setLoginState,
                         updateFlag: false,
                         user: this.user,
-                        area: this.area.name,
+                        area: this.area,
+                        onJumpArea: this.jumpToAreaDetail,
+                        onJumpArticleList: this.jumpToArticleList,
+                        onJumpCommentList: this.jumpToCommentList,
                       })
                     }}>
               <Icon name={'md-contact'}
@@ -503,10 +527,10 @@ const RootStack = StackNavigator({
       screen: CommentDetail,
     },
     AreaDetail: {
-      screen: AreaDetial,
+      screen: AreaDetail,
     },
     SpotDetail: {
-      screen: SpotDetial,
+      screen: SpotDetail,
     },
     PublishArticle: {
       screen: PublishArticle,
@@ -523,6 +547,9 @@ const RootStack = StackNavigator({
     ArticleList: {
       screen: ArticleList,
     },
+    CommentList: {
+      screen: CommentList,
+    }
   },
   {
     headerMode: 'none',

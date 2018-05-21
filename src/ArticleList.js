@@ -93,7 +93,7 @@ export default class ArticleList extends Component {
 
                 <View style={styles.itemFooter}>
                   <Text style={styles.itemFooterText}>{d.vote}赞同</Text>
-                  <Text style={styles.itemFooterText}>{d.content}评论</Text>
+                  <Text style={styles.itemFooterText}>{d.comment}评论</Text>
                 </View>
               </View>
             </TouchableHighlight>
