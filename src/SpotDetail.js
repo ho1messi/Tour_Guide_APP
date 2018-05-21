@@ -17,6 +17,10 @@ import {
   Separator,
 } from 'native-base';
 
+import PopupDialog from 'react-native-popup-dialog';
+
+import StarRating from './StarRating';
+
 const baseUrl = 'http://ho1messi.in.8866.org:8629/';
 
 export default class AreaDetail extends Component {
@@ -71,6 +75,38 @@ export default class AreaDetail extends Component {
     })
   }
 
+  _onSetRating(star) {
+    this._popupDialog.dismiss();
+
+    fetch (baseUrl + 'scenic/score/spot/' + this.state.data.spot.id + '/' + star, {
+      method: 'GET',
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.err) {
+          alert(json.err);
+        } else {
+          //this._starRating.stars = json.obj.score;
+          let state = this.state;
+          state.data.spot.score = json.obj.score;
+          this.setState(state);
+        }
+      })
+  }
+
+  renderPopupDialog() {
+    let array = [0, 1, 2, 3, 4, 5];
+    return (
+      <List dataArray={array} renderRow={(d) =>
+        <ListItem onPress={() => this._onSetRating(d)}>
+          <Text>
+            {d}
+          </Text>
+        </ListItem>
+      }/>
+    )
+  }
+
   renderSpotDetail() {
     return (
       <View style={styles.content}>
@@ -94,6 +130,11 @@ export default class AreaDetail extends Component {
             <Text>
               {this.state.data.spot.about}
             </Text>
+          </ListItem>
+          <ListItem onPress={() => this._popupDialog.show()}>
+            <StarRating total={5}
+                        starSpacing={3}
+                        stars={parseInt(this.state.data.spot.score + 0.5)}/>
           </ListItem>
           <ListItem style={styles.listContent}>
             <Button style={styles.listContentButton} onPress={this.onJumpArticle}>
@@ -127,6 +168,11 @@ export default class AreaDetail extends Component {
   render() {
     return (
       <Container style={styles.container}>
+
+        <PopupDialog ref={(popupDialog) => this._popupDialog = popupDialog} >
+          {this.renderPopupDialog()}
+        </PopupDialog>
+
         <Header style={styles.header}>
           <Button transparent style={styles.headerButton} onPress={() => this.props.navigation.goBack()}>
             <Icon name={'ios-arrow-back'} style={styles.headerIcon}/>

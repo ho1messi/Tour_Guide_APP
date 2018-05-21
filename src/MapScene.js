@@ -40,8 +40,8 @@ export default class MapScene extends BaseComponent {
     this.state = {marker: -1};
     this.markers = [];
     this.coord = {
-      latitude: 0,
-      longitude: 0,
+      latitude: 37.5340538227,
+      longitude: 122.0833933353,
     };
 
     fetch (baseUrl + 'scenic/area_list/', {
@@ -123,14 +123,15 @@ export default class MapScene extends BaseComponent {
       <View style={styles.content}>
         <MapView style={styles.map}
                  locationEnabled
+                 center={{ latitude: 37.5340538227, longitude: 122.0833933353 }}
                  locationInterval={10000}
                  showsLocationButton
                  showsScale
                  rotateEnabled={false}
                  zoomLevel={13}
                  onLocation={({nativeEvent}) => {
-                   this.coord.latitude = nativeEvent.latitude;
-                   this.coord.longitude = nativeEvent.longitude;
+                   //this.coord.latitude = nativeEvent.latitude;
+                   //this.coord.longitude = nativeEvent.longitude;
                    //console.log(`${nativeEvent.latitude}, ${nativeEvent.longitude}`);
                  }} >
           {this.renderMarkers()}

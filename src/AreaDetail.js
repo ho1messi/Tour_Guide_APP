@@ -17,6 +17,10 @@ import {
   Separator,
 } from 'native-base';
 
+import PopupDialog from 'react-native-popup-dialog';
+
+import StarRating from './StarRating';
+
 const baseUrl = 'http://ho1messi.in.8866.org:8629/';
 
 export default class AreaDetail extends Component {
@@ -34,6 +38,7 @@ export default class AreaDetail extends Component {
     this.onJumpArticle = this.onJumpArticle.bind(this);
     this.onJumpDiscussion = this.onJumpDiscussion.bind(this);
     this.getAreaSelectionInfo = this.getAreaSelectionInfo.bind(this);
+    this._onSetRating = this._onSetRating.bind(this);
 
     //let params = {id: 1};
     fetch (baseUrl + 'scenic/detail/area/' + params.id, {
@@ -101,6 +106,38 @@ export default class AreaDetail extends Component {
     })
   }
 
+  _onSetRating(star) {
+    this._popupDialog.dismiss();
+
+    fetch (baseUrl + 'scenic/score/area/' + this.state.data.id + '/' + star, {
+      method: 'GET',
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        if (json.err) {
+          alert(json.err);
+        } else {
+          //this._starRating.stars = json.obj.score;
+          let state = this.state;
+          state.data.score = json.obj.score;
+          this.setState(state);
+        }
+      })
+  }
+
+  renderPopupDialog() {
+    let array = [0, 1, 2, 3, 4, 5];
+    return (
+      <List dataArray={array} renderRow={(d) =>
+        <ListItem onPress={() => this._onSetRating(d)}>
+          <Text>
+            {d}
+          </Text>
+        </ListItem>
+      }/>
+    )
+  }
+
   renderAreaDetail() {
     let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     let data = ds.cloneWithRows(this.state.data.spot_list);
@@ -113,6 +150,11 @@ export default class AreaDetail extends Component {
               <Text>
                 {this.state.data.about}
               </Text>
+            </ListItem>
+            <ListItem onPress={() => this._popupDialog.show()}>
+              <StarRating total={5}
+                          starSpacing={3}
+                          stars={parseInt(this.state.data.score + 0.5)}/>
             </ListItem>
             {this.getAreaSelectionInfo()}
             <ListItem style={styles.listContent}>
@@ -159,6 +201,11 @@ export default class AreaDetail extends Component {
   render() {
     return (
       <Container style={styles.container}>
+
+        <PopupDialog ref={(popupDialog) => this._popupDialog = popupDialog} >
+          {this.renderPopupDialog()}
+        </PopupDialog>
+
         <Header style={styles.header}>
           <Button transparent style={styles.headerButton} onPress={() => this.props.navigation.goBack()}>
             <Icon name={'ios-arrow-back'} style={styles.headerIcon}/>
