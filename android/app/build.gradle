@@ -138,6 +138,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-baidumap-sdk')
     compile project(':react-native-image-picker')
     compile project(':react-native-speech-iflytek')
     compile project(':react-native-tts')

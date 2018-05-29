@@ -19,7 +19,10 @@ import {
 } from 'react-native-baidumap-sdk';
 */
 
-import {MapView} from 'react-native-amap3d';
+import {
+  Initializer,
+  MapView,
+} from 'react-native-baidumap-sdk';
 
 import BaseComponent from './BaseComponent';
 
@@ -33,12 +36,19 @@ export default class MapScene extends BaseComponent {
 
     this.renderMarker = this.renderMarker.bind(this);
     this.renderMarkers = this.renderMarkers.bind(this);
-    this._onPressMarkInfoButton = this._onPressMarkInfoButton.bind(this);
+    this._onPressMarkInfo = this._onPressMarkInfo.bind(this);
+    this._onPressSpotMarkInfo = this._onPressSpotMarkInfo.bind(this);
 
-    //Initializer.init('Yk87phEBwxPOAyYx7WdEooBkV4NKwTjY').catch((e) => console.error(e));
+    Initializer.init('Yk87phEBwxPOAyYx7WdEooBkV4NKwTjY').catch((e) => console.error(e));
 
-    this.state = {marker: -1};
+    this.state = {
+      marker: -1,
+      coord: { latitude: 37.5340538227, longitude: 122.0833933353 },
+      zoom: 13,
+      showSpot: false,
+    };
     this.markers = [];
+    this.spots = [];
     this.coord = {
       latitude: 37.5340538227,
       longitude: 122.0833933353,
@@ -79,33 +89,58 @@ export default class MapScene extends BaseComponent {
     return a * a + b * b;
   }
   
-  _onPressMarker(id) {
-    this.setState({marker: id});
+  _onPressMarker(marker) {
+    let state = this.state;
+    state.marker = marker.id;
+    state.coord = marker.coord;
+    state.zoom = 17;
+    this.spots = marker.spots;
+    this.setState(state);
   }
 
-  _onPressMarkInfoButton(id) {
+  _onPressMarkInfo(id) {
     const {params} = this.props.navigation.state;
-    params.onJump(id);
+    params.onJumpArea(id);
+  }
+
+  _onPressSpotMarkInfo(id) {
+    const {params} = this.props.navigation.state;
+    params.onJumpSpot(id);
   }
 
   renderMarker(marker) {
     return (
-      <MapView.Marker icon={() =>
-        <Icon name={'ios-pin'}
-              style={marker.id === this.state.marker ? styles.markIconActive : styles.markIcon}/>}
-                      coordinate={marker.coord}
-                      active={marker.id === this.state.marker}
-                      onPress={() => this._onPressMarker(marker.id)}
-                      key={marker.id + marker.name}>
-        <View style={styles.markInfo}>
-          <Button transparent style={styles.markInfoButton} onPress={() => this._onPressMarkInfoButton(marker.id)}>
-            <Text style={styles.markInfoText}>
-              {marker.name}
-            </Text>
-          </Button>
-        </View>
+      <MapView.Marker
+        coordinate={marker.coord}
+        color={'#09f'}
+        onPress={() => this._onPressMarker(marker)}
+        key={marker.id + marker.name}
+      >
+        <MapView.Callout onPress={() => this._onPressMarkInfo(marker.id)}>
+          <View style={styles.markInfo}>
+            <Text>{marker.name}</Text>
+          </View>
+
+        </MapView.Callout>
       </MapView.Marker>
-    );
+    )
+  }
+
+  renderSpotMarker(marker) {
+    return (
+      <MapView.Marker
+        coordinate={marker.coord}
+        color={'#f36'}
+        key={marker.id + marker.name}
+      >
+        <MapView.Callout onPress={() => this._onPressSpotMarkInfo(marker.id)}>
+          <View style={styles.markInfo}>
+            <Text>{marker.name}</Text>
+          </View>
+
+        </MapView.Callout>
+      </MapView.Marker>
+    )
   }
 
   renderMarkers() {
@@ -117,24 +152,39 @@ export default class MapScene extends BaseComponent {
     return markList;
   }
 
+  renderSpotMarkers() {
+    let markList = [];
+    if (this.state.marker < 0)
+      return (
+        <View>
+
+        </View>
+      );
+    this.spots.forEach((marker) => {
+      markList.push(this.renderSpotMarker(marker));
+    });
+
+    return markList;
+  }
+
   render() {
-    //<MapView setellite/>
     return (
       <View style={styles.content}>
         <MapView style={styles.map}
                  locationEnabled
-                 center={{ latitude: 37.5340538227, longitude: 122.0833933353 }}
+                 center={this.state.coord}
                  locationInterval={10000}
                  showsLocationButton
                  showsScale
                  rotateEnabled={false}
-                 zoomLevel={13}
+                 zoomLevel={this.state.zoom}
                  onLocation={({nativeEvent}) => {
                    //this.coord.latitude = nativeEvent.latitude;
                    //this.coord.longitude = nativeEvent.longitude;
                    //console.log(`${nativeEvent.latitude}, ${nativeEvent.longitude}`);
                  }} >
           {this.renderMarkers()}
+          {this.renderSpotMarkers()}
         </MapView>
       </View>
     );
@@ -148,6 +198,8 @@ const styles = StyleSheet.create({
   map: {
     flexGrow: 1,
   },
+  markView: {
+  },
   markIcon: {
     color: '#09f',
     fontSize: 40,
@@ -157,7 +209,8 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   markInfo: {
-    backgroundColor: '#f36',
+    //backgroundColor: '#f36',
+    backgroundColor: '#fff',
     padding: 5,
   },
   markInfoButton: {

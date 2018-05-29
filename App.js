@@ -144,7 +144,7 @@ class HomeScreen extends Component {
 
   async componentWillMount() {
 
-    let ret = await storage.load({
+    await storage.load({
       key: 'currentArea',
       autoSync: false,
     })
@@ -340,6 +340,7 @@ class HomeScreen extends Component {
 
   renderPopupDialog() {
     if (this.recognizeProb > 80) {
+      console.log(this.recognizeResult);
       return (
         <View style={styles.recognizeContent}>
           <Text style={styles.recognizeTitle}>
@@ -394,8 +395,6 @@ class HomeScreen extends Component {
   }
 
   render() {
-    console.log('render', this.area);
-
     return (
       <View style={styles.container}>
 
@@ -439,7 +438,10 @@ class HomeScreen extends Component {
             </Button>
             <Button onPress={() => {
                       this.setState({selectedTab: 2});
-                      BaseComponent.scene.nav().navigate('Map', {onJump: this.jumpToAreaDetail})
+                      BaseComponent.scene.nav().navigate('Map', {
+                        onJumpArea: this.jumpToAreaDetail,
+                        onJumpSpot: this.jumpToSpotDetail,
+                      })
                     }}>
               <Icon name={'md-compass'}
                     style={
