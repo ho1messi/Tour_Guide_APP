@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {
   BackHandler,
+  Dimensions,
+  Image,
   ListView,
   StyleSheet,
   Text,
@@ -20,6 +22,9 @@ import {
 import PopupDialog from 'react-native-popup-dialog';
 
 import StarRating from './StarRating';
+
+let screenWidth = Dimensions.get('window').width;
+let screenHeight = Dimensions.get('window').height;
 
 const baseUrl = 'http://ho1messi.in.8866.org:8629/';
 
@@ -46,6 +51,7 @@ export default class AreaDetail extends Component {
     })
       .then((response) => response.json())
       .then((json) => {
+        console.log(json.obj.image);
         this.setState({data: json.obj, area: this.state.area})
       })
       .catch((err) => alert(err));
@@ -146,6 +152,12 @@ export default class AreaDetail extends Component {
         <ListView style={styles.list} enableEmptySections={true}
                   dataSource={data} renderHeader={() =>
           <List style={styles.listHeader}>
+            <ListItem>
+              <Image style={styles.image}
+                     source={{uri: this.state.data.image}}
+                     ref={(t) => this.image = t}
+              />
+            </ListItem>
             <ListItem style={styles.listAbout}>
               <Text>
                 {this.state.data.about}
@@ -252,10 +264,14 @@ const styles = StyleSheet.create({
 
   },
   list: {
-
+    marginBottom: 100,
   },
   listHeader: {
 
+  },
+  image: {
+    height: 200,
+    width: screenWidth - 40,
   },
   listAbout: {
 

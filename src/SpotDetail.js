@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 import {
   BackHandler,
+  Dimensions,
+  Image,
   ListView,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -20,6 +23,9 @@ import {
 import PopupDialog from 'react-native-popup-dialog';
 
 import StarRating from './StarRating';
+
+let screenWidth = Dimensions.get('window').width;
+let screenHeight = Dimensions.get('window').height;
 
 const baseUrl = 'http://ho1messi.in.8866.org:8629/';
 
@@ -110,7 +116,7 @@ export default class AreaDetail extends Component {
   renderSpotDetail() {
     return (
       <View style={styles.content}>
-        <List style={styles.list}>
+        <ScrollView style={styles.list}>
           <Separator style={styles.separator}>
             <Text style={styles.separatorText}>
               {this.state.data.area.name}
@@ -126,6 +132,11 @@ export default class AreaDetail extends Component {
               景点介绍
             </Text>
           </Separator>
+          <ListItem>
+            <Image style={styles.image}
+                   source={{uri: this.state.data.spot.image}}
+            />
+          </ListItem>
           <ListItem style={styles.listAbout}>
             <Text>
               {this.state.data.spot.about}
@@ -148,7 +159,7 @@ export default class AreaDetail extends Component {
               </Text>
             </Button>
           </ListItem>
-        </List>
+        </ScrollView>
       </View>
     );
   }
@@ -219,7 +230,11 @@ const styles = StyleSheet.create({
 
   },
   list: {
-
+    marginBottom: 100,
+  },
+  image: {
+    height: 200,
+    width: screenWidth - 40,
   },
   separator: {
     backgroundColor: '#ddd',

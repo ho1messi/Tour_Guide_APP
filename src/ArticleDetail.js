@@ -268,6 +268,12 @@ const markdownStyles = {
     marginTop: 25,
     marginBottom: 25,
   },
+  image: {
+    width: 320,
+    height: 320,
+    resizeMode: 'contain',
+    margin: 10,
+  },
   text: {
     fontSize: 18,
     marginTop: 10,
