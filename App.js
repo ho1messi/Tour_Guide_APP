@@ -621,9 +621,9 @@ const RootStack = StackNavigator({
   },
   {
     headerMode: 'none',
-    initialRouteName: 'Home',
-    //initialRouteName: 'CommentDetail',
-    //initialRouteParams: {id: 2, type: 'discussion'},
+    //initialRouteName: 'Home',
+    initialRouteName: 'ArticleDetail',
+    initialRouteParams: {id: 3, type: 'discussion'},
   },
 );
 

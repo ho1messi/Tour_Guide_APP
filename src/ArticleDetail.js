@@ -25,7 +25,11 @@ import {
   SpeechConstant,
 } from 'react-native-speech-iflytek';
 
+import Markdown from 'react-native-simple-markdown';
+
 const baseUrl = 'http://ho1messi.in.8866.org:8629/';
+
+//let Markdown = require('react-native-markdown');
 
 export default class ArticleDetail extends Component {
   constructor(props) {
@@ -158,9 +162,11 @@ export default class ArticleDetail extends Component {
           </Button>
         </Header>
 
-        <ScrollView>
+        <ScrollView style={styles.contentMain}>
           <Text style={styles.contentAuthor}>{article.author}:</Text>
-          <Text style={styles.contentText}>{article.content}</Text>
+          <Markdown style={styles.contentText} styles={markdownStyles}>
+            {article.content}
+            </Markdown>
         </ScrollView>
 
         <Footer style={styles.footer}>
@@ -211,6 +217,10 @@ const styles = StyleSheet.create({
   headerIconBig: {
     fontSize: 40,
   },
+  contentMain: {
+    marginLeft: 10,
+    marginRight: 10,
+  },
   contentAuthor: {
     fontSize: 26,
     marginBottom: 20,
@@ -219,9 +229,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   contentText: {
-    fontSize: 18,
-    paddingLeft: 10,
-    paddingRight: 10,
+    marginLeft: 20,
+    marginRight: 20,
   },
   footer: {
     justifyContent: 'flex-start',
@@ -246,3 +255,23 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 });
+
+const markdownStyles = {
+  heading1: {
+    color: '#09f',
+    fontSize: 30,
+    marginTop: 30,
+    marginBottom: 30,
+  },
+  header2: {
+    fontSize: 26,
+    marginTop: 25,
+    marginBottom: 25,
+  },
+  text: {
+    fontSize: 18,
+    marginTop: 10,
+    marginBottom: 10,
+  }
+
+};
