@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {
   BackHandler,
+  Image,
   ListView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 
@@ -21,8 +23,11 @@ import {
 
 import {
   Initializer,
+  Location,
   MapView,
 } from 'react-native-baidumap-sdk';
+
+import icon from './ic_my_location.png';
 
 import BaseComponent from './BaseComponent';
 
@@ -36,6 +41,7 @@ export default class MapScene extends BaseComponent {
 
     this.renderMarker = this.renderMarker.bind(this);
     this.renderMarkers = this.renderMarkers.bind(this);
+    this._onLocation = this._onLocation.bind(this);
     this._onPressMarkInfo = this._onPressMarkInfo.bind(this);
     this._onPressSpotMarkInfo = this._onPressSpotMarkInfo.bind(this);
 
@@ -65,8 +71,20 @@ export default class MapScene extends BaseComponent {
       .catch((err) => alert(err));
   }
 
-  updateCoord(latitude, longitude) {
+  async componentDidMount() {
+    await Location.init();
+    Location.setOptions({ gps: true });
+    this.listener = Location.addLocationListener(location => {
+      let state = this.state;
+      state.coord = location;
+      this.setState(state);
+    });
+    Location.start();
+  }
 
+  componentWillUnmount() {
+    Location.stop();
+    this.listener.remove();
   }
 
   findNearestMarker(markers) {
@@ -88,7 +106,11 @@ export default class MapScene extends BaseComponent {
     let b = this.coord.longitude - marker.coord.longitude;
     return a * a + b * b;
   }
-  
+
+  _onLocation() {
+    this.mapView.setStatus({center: this.state.coord}, 1000)
+  }
+
   _onPressMarker(marker) {
     let state = this.state;
     state.marker = marker.id;
@@ -171,21 +193,26 @@ export default class MapScene extends BaseComponent {
     return (
       <View style={styles.content}>
         <MapView style={styles.map}
-                 locationEnabled
                  center={this.state.coord}
-                 locationInterval={10000}
-                 showsLocationButton
-                 showsScale
-                 rotateEnabled={false}
+                 location={this.state.coord}
+                 locationEnabled
+                 ref={(t) => this.mapView = t}
+                 //rotateEnabled={false}
                  zoomLevel={this.state.zoom}
-                 onLocation={({nativeEvent}) => {
+                 //onLocation={({nativeEvent}) => {
                    //this.coord.latitude = nativeEvent.latitude;
                    //this.coord.longitude = nativeEvent.longitude;
                    //console.log(`${nativeEvent.latitude}, ${nativeEvent.longitude}`);
-                 }} >
+                 //}} >
+                  >
           {this.renderMarkers()}
           {this.renderSpotMarkers()}
         </MapView>
+        <View style={styles.mapButton}>
+          <TouchableOpacity onPress={this._onLocation}>
+            <Image style={styles.mapButtonIcon} source={icon}/>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -197,6 +224,20 @@ const styles = StyleSheet.create({
   },
   map: {
     flexGrow: 1,
+  },
+  mapButton: {
+    position: 'absolute',
+    right: 3,
+    bottom: 100,
+    backgroundColor: '#fff',
+    borderRadius: 40,
+    elevation: 2,
+  },
+  mapButtonIcon: {
+    width: 24,
+    height: 24,
+    margin: 12,
+    tintColor: '#616161',
   },
   markView: {
   },

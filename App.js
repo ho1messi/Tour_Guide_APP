@@ -242,12 +242,13 @@ class HomeScreen extends Component {
               let file = {uri: response.uri, type: 'multipart/form-data', name: 'a.jpg'}
 
               formData.append('img', file);
+              console.log(formData);
 
               fetch (baseUrl + 'scenic/upload_image/' + this.area.id, {
                 method: 'POST',
-                headers: {
-                  'Content-type': 'multipart/form-data',
-                },
+                //headers: {
+                  //'Content-type': 'multipart/form-data',
+                //},
                 body: formData,
               })
                 .then((response) => response.json())
